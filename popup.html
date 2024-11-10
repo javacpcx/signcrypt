@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Signature & Encryption Tools</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            width: 500px;
+            /* 設定寬度 */
+            height: auto;
+            /* 設定高度 */
+            /* overflow-y: auto; 若超出視窗範圍可滾動 */
+        }
+
+        h2 {
+            background-color: cornflowerblue;
+        }
+
+        li {
+            background-color: beige;
+        }
+    </style>
+
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="popup.js"></script>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2><img src="icons/iconOrigin.png" alt="ICON" width="60px">RSA-AES SignCrypt</h2>
+        <ul class="nav nav-tabs" id="encryptionTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="aes-tab" data-bs-toggle="tab" data-bs-target="#aes" type="button"
+                    role="tab">🔒AES</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="rsa-tab" data-bs-toggle="tab" data-bs-target="#rsa" type="button"
+                    role="tab">🔏RSA Signature</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="rsa-encrypt-tab" data-bs-toggle="tab" data-bs-target="#rsaEncryptDecrypt"
+                    type="button" role="tab">🔐RSA Encrypt/Decrypt</button>
+            </li>
+        </ul>
+        <div class="tab-content mt-3">
+            <!-- AES Tab -->
+            <div class="tab-pane fade show active" id="aes" role="tabpanel">
+                <h3>AES Encrypt/Decrypt<img src="icons/sk.png" alt="Secret Key" width="40px"></h3>
+                <span class="input-group-text">1. Choose File：
+                    <input class="form-control is-invalid" type="file" id="aesFileInput"
+                        accept=".txt, .pdf, .doc, .docx, .enc," placeholder="aesFileInput"></span>
+                <span class="input-group-text">2. Enter AES Enc/Dec Key：
+                    <input class="form-control is-invalid" type="password" id="aesKey" placeholder="Enc/Dec key"
+                        aria-placeholder="aesKey"></span>
+                <button id="aesEncryptBtn" class="btn btn-success mt-2">Encrypt</button>
+                <button id="aesDecryptBtn" class="btn btn-danger mt-2">Decrypt</button>
+            </div>
+
+            <!-- RSA Signature功能區域 -->
+            <div class="tab-pane fade" id="rsa" role="tabpanel">
+                <h3>RSA Digital Signature<img src="icons/sk.png" alt="Secret Key" width="40px"><img src="icons/pk.png"
+                        alt="Public Key" width="40px"></h3>
+                <button id="generateKeyPairBtn" class="btn btn-success mt-2">Generate RSA Key Pair</button>
+                <button class="btn btn-info mt-2" title="Step 1+2 and using SK to Signing.">Sign Hint</button>
+                <button class="btn btn-info mt-2" title="Step 1+2+3 and using PK to Verify.">Verify Hint</button>
+                <p id="keyStatus">No keys generated.</p>
+
+                <!-- 原始檔案輸入 -->
+                <span class="input-group-text">1. Choose File：
+                    <input class="form-control is-invalid" type="file" id="rsaFileInput"
+                        accept=".txt, .pdf, .doc, .docx, .enc," placeholder="rsaFileInput">
+                </span>
+
+                <!-- 公鑰或私鑰檔案 -->
+                <span class="input-group-text">2. Choose RSA PK/SK：
+                    <input class="form-control is-invalid" type="file" id="keyFileInput" accept=".key"
+                        placeholder="PK/SK FileInput">
+                </span>
+
+                <!-- 簽章檔案，用於驗證 -->
+                <span class="input-group-text">3. Select the '.sig' file for <br> signature verification：
+                <input class="form-control is-invalid" type="file" id="sigFileInput" accept=".sig"
+                    placeholder="sigFileInput">
+                </span>
+
+                <span class="input-group-text">Sign or Verify：
+                    <select id="rsaOperation" class="form-control is-invalid">
+                        <option value="sign">Sign(using Secret Key)</option>
+                        <option value="verify">Verify(using Public Key)</option>
+                    </select>
+                </span>
+                <button id="rsaProcessBtn" class="btn btn-warning mt-2">Process</button>
+            </div>
+
+            <!-- RSA Encryption功能區域 -->
+            <div class="tab-pane fade" id="rsaEncryptDecrypt" role="tabpanel">
+                <h3>RSA Encrypt&Decrypt<img src="icons/pk.png" alt="Public Key" width="40px"><img src="icons/sk.png"
+                        alt="Secret Key" width="40px"></h3>
+                <button class="btn btn-info mt-2" title="Encrypted files must be less than 190bytes!!">File
+                    Hint</button>
+                <button class="btn btn-info mt-2" title="Encrypt the file using the public key only!">Encrypt
+                    Hint</button>
+                <span class="input-group-text mt-2">1. Choose Enc/Dec File：
+                    <input class="form-control is-invalid" type="file" id="rsaEncryptFileInput"
+                        accept=".txt, .pdf, .doc, .docx, .encrypted, .decrypted">
+                </span>
+                <span class="input-group-text">2. Choose RSA PK/SK：
+                    <input class="form-control is-invalid" type="file" id="rsaEncryptKeyInput" accept=".key">
+                </span>
+                <span class="input-group-text">Encrypt or Decrypt：
+                    <select id="rsaEncryptOperation" class="form-control is-invalid">
+                        <option value="encrypt">Encrypt(using Public Key)</option>
+                        <option value="decrypt">Decrypt(using Secret Key)</option>
+                    </select>
+                </span>
+                <button id="rsaEncryptProcessBtn" class="btn btn-warning mt-2">Process</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
